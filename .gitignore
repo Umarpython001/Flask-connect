@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.Python
+*.egg
+*.egg-info/
+.eggs/
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# Flask
+instance/
+!instance/.gitkeep
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploads (keep .gitkeep stubs)
+website/static/uploads/profile_pics/*
+!website/static/uploads/profile_pics/.gitkeep
+website/static/uploads/user_posts/*
+!website/static/uploads/user_posts/.gitkeep
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Environment / secrets
+.env
+*.pem
+
+# Logs
+*.log

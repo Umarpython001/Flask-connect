@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}#{{ room.name }} · Flask Connect{% endblock %}
+{% block content %}
+<div class="row g-3">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <h1 class="h5 mb-0 flex-grow-1">#{{ room.name }}</h1>
+                    <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('rooms.list_rooms') }}">All rooms</a>
+                </div>
+
+                <div id="chat-window" class="chat-window"></div>
+                <div id="typing-indicator" class="typing-indicator mt-1"></div>
+
+                <form id="chat-form" class="d-flex gap-2 mt-2">
+                    <input id="chat-input" class="chat-input" type="text" maxlength="2000" placeholder="Type a message…" autocomplete="off">
+                    <button class="btn btn-primary" type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <h2 class="h6">Members ({{ members|length }})</h2>
+                <ul id="members-list" class="list-group list-group-flush member-list">
+                    {% for m in members %}
+                        <li class="list-group-item d-flex align-items-center gap-2 px-0">
+                            <img class="avatar avatar-sm" src="{{ url_for('static', filename=m.profile_pic) }}" alt="">
+                            <span class="flex-grow-1">
+                                {{ m.username }}
+                                {% if m.id == current_user.id %}<small class="text-muted">(you)</small>{% endif %}
+                                {% if creator and m.id == creator.id %}<small class="text-muted">· owner</small>{% endif %}
+                            </span>
+                            {% if is_creator and m.id != current_user.id %}
+                                <form action="{{ url_for('rooms.remove_member', room_id=room.id, user_id=m.id) }}" method="post"
+                                      onsubmit="return confirm('Remove {{ m.username }} from the room?');">
+                                    <button class="btn btn-sm btn-outline-secondary" type="submit">×</button>
+                                </form>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                {% if is_creator %}
+                    <hr>
+                    <h3 class="h6">Add a friend</h3>
+                    {% set friend_list = current_user.friends() %}
+                    {% set member_ids = members|map(attribute='id')|list %}
+                    {% set available = friend_list|rejectattr('id', 'in', member_ids)|list %}
+                    {% if available %}
+                        <form action="{{ url_for('rooms.add_member', room_id=room.id) }}" method="post" class="d-flex gap-2">
+                            <select class="form-select form-select-sm" name="user_id" required>
+                                <option value="" disabled selected>Pick a friend…</option>
+                                {% for f in available %}
+                                    <option value="{{ f.id }}">{{ f.username }}</option>
+                                {% endfor %}
+                            </select>
+                            <button class="btn btn-sm btn-primary" type="submit">Add</button>
+                        </form>
+                    {% else %}
+                        <p class="text-muted small mb-0">All your friends are already in this room.</p>
+                    {% endif %}
+                {% endif %}
+
+                {% if not is_creator %}
+                    <hr>
+                    <form action="{{ url_for('rooms.leave_room', room_id=room.id) }}" method="post"
+                          onsubmit="return confirm('Leave this room?');">
+                        <button class="btn btn-sm btn-outline-danger w-100" type="submit">Leave room</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.body.dataset.roomId = "{{ room.id }}";
+    document.body.dataset.myId = "{{ current_user.id }}";
+</script>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/room.js') }}"></script>
+{% endblock %}

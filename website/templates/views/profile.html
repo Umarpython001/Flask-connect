@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}@{{ profile_user.username }} · Flask Connect{% endblock %}
+{% block content %}
+<div class="profile-header">
+    <img class="avatar avatar-lg" src="{{ url_for('static', filename=profile_user.profile_pic) }}" alt="">
+    <div class="flex-grow-1">
+        <h1 class="h3 mb-1">{{ profile_user.username }}</h1>
+        <p class="text-muted mb-2">Joined {{ profile_user.created_at.strftime('%B %Y') }}</p>
+        {% if profile_user.id != current_user.id %}
+            <div>
+                {% if friendship_status == "accepted" %}
+                    <form action="{{ url_for('friends.unfriend', user_id=profile_user.id) }}" method="post" class="d-inline">
+                        <button class="btn btn-outline-secondary btn-sm" type="submit">Friends · Unfriend</button>
+                    </form>
+                    <a class="btn btn-primary btn-sm" href="{{ url_for('dm.dm_room', other_id=profile_user.id) }}">Message</a>
+                {% elif friendship_status == "outgoing_pending" %}
+                    <button class="btn btn-secondary btn-sm" disabled>Request sent</button>
+                {% elif friendship_status == "incoming_pending" %}
+                    <a class="btn btn-success btn-sm" href="{{ url_for('friends.friends_list') }}">Respond to request</a>
+                {% elif friendship_status == "self" %}
+                {% else %}
+                    <form action="{{ url_for('friends.request_friend', user_id=profile_user.id) }}" method="post" class="d-inline">
+                        <button class="btn btn-primary btn-sm" type="submit">Add Friend</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% else %}
+            <a class="btn btn-outline-primary btn-sm" href="{{ url_for('views.edit_profile') }}">Edit profile</a>
+        {% endif %}
+    </div>
+</div>
+
+{% if posts %}
+    <div class="posts-grid">
+        {% for post in posts %}
+            <div class="position-relative">
+                <img src="{{ url_for('static', filename=post.image_path) }}" alt="">
+                {% if post.user_id == current_user.id %}
+                    <form action="{{ url_for('posts.delete_post', post_id=post.id) }}" method="post"
+                          onsubmit="return confirm('Delete this post?');"
+                          class="position-absolute top-0 end-0 m-1">
+                        <button class="btn btn-sm btn-danger" type="submit">×</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <p class="mb-0">{{ profile_user.username }} hasn't posted anything yet.</p>
+    </div>
+{% endif %}
+{% endblock %}

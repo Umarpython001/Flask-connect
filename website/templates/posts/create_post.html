@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Create a post · Flask Connect{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <h1 class="h4 mb-3">Share a photo</h1>
+                <form method="post" enctype="multipart/form-data" action="{{ url_for('posts.create_post') }}">
+                    <input class="form-control mb-2" type="file" name="image" accept="image/*" required>
+                    <button class="btn btn-primary" type="submit">Post</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

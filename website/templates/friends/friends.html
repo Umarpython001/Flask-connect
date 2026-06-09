@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Friends · Flask Connect{% endblock %}
+{% block content %}
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">My friends ({{ my_friends|length }})</h2>
+                {% if my_friends %}
+                    <ul class="list-group list-group-flush">
+                        {% for f in my_friends %}
+                            <li class="list-group-item d-flex align-items-center gap-2 px-0">
+                                <img class="avatar avatar-sm" src="{{ url_for('static', filename=f.profile_pic) }}" alt="">
+                                <a class="flex-grow-1" href="{{ url_for('views.profile', username=f.username) }}">{{ f.username }}</a>
+                                <a class="btn btn-sm btn-outline-primary" href="{{ url_for('dm.dm_room', other_id=f.id) }}">Message</a>
+                                <form action="{{ url_for('friends.unfriend', user_id=f.id) }}" method="post" class="d-inline"
+                                      onsubmit="return confirm('Unfriend {{ f.username }}?');">
+                                    <button class="btn btn-sm btn-outline-secondary" type="submit">×</button>
+                                </form>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted mb-0">No friends yet. Visit a profile to send a request.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">Incoming requests ({{ incoming|length }})</h2>
+                {% if incoming %}
+                    <ul class="list-group list-group-flush">
+                        {% for req in incoming %}
+                            <li class="list-group-item px-0">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <img class="avatar avatar-sm" src="{{ url_for('static', filename=req.requester.profile_pic) }}" alt="">
+                                    <a class="flex-grow-1" href="{{ url_for('views.profile', username=req.requester.username) }}">{{ req.requester.username }}</a>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <form action="{{ url_for('friends.accept_friend', friendship_id=req.id) }}" method="post" class="flex-grow-1">
+                                        <button class="btn btn-sm btn-success w-100" type="submit">Accept</button>
+                                    </form>
+                                    <form action="{{ url_for('friends.decline_friend', friendship_id=req.id) }}" method="post" class="flex-grow-1">
+                                        <button class="btn btn-sm btn-outline-secondary w-100" type="submit">Decline</button>
+                                    </form>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted mb-0">No pending requests.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">Sent requests ({{ outgoing|length }})</h2>
+                {% if outgoing %}
+                    <ul class="list-group list-group-flush">
+                        {% for req in outgoing %}
+                            <li class="list-group-item d-flex align-items-center gap-2 px-0">
+                                <img class="avatar avatar-sm" src="{{ url_for('static', filename=req.addressee.profile_pic) }}" alt="">
+                                <a class="flex-grow-1" href="{{ url_for('views.profile', username=req.addressee.username) }}">{{ req.addressee.username }}</a>
+                                <form action="{{ url_for('friends.cancel_friend', friendship_id=req.id) }}" method="post">
+                                    <button class="btn btn-sm btn-outline-secondary" type="submit">Cancel</button>
+                                </form>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted mb-0">No outgoing requests.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}@{{ other.username }} · Flask Connect{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <a class="text-decoration-none d-flex align-items-center gap-2" href="{{ url_for('views.profile', username=other.username) }}">
+                        <img class="avatar" src="{{ url_for('static', filename=other.profile_pic) }}" alt="">
+                        <strong>{{ other.username }}</strong>
+                    </a>
+                </div>
+
+                <div id="chat-window" class="chat-window"></div>
+                <div id="typing-indicator" class="typing-indicator mt-1"></div>
+
+                <form id="chat-form" class="d-flex gap-2 mt-2">
+                    <input id="chat-input" class="chat-input" type="text" maxlength="2000" placeholder="Type a message…" autocomplete="off">
+                    <button class="btn btn-primary" type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.body.dataset.otherId = "{{ other.id }}";
+    document.body.dataset.myId = "{{ current_user.id }}";
+</script>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/dm.js') }}"></script>
+{% endblock %}

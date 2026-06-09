@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Rooms · Flask Connect{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="d-flex align-items-center mb-3">
+            <h1 class="h4 mb-0 flex-grow-1">Group rooms</h1>
+            <a class="btn btn-primary" href="{{ url_for('rooms.create_room') }}">+ New room</a>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-0">
+                {% if rooms %}
+                    <ul class="list-group list-group-flush">
+                        {% for room in rooms %}
+                            <li class="list-group-item d-flex align-items-center gap-2">
+                                <div class="flex-grow-1">
+                                    <a class="fw-semibold text-decoration-none" href="{{ url_for('rooms.view_room', room_id=room.id) }}">{{ room.name }}</a>
+                                    <div class="text-muted small">
+                                        {{ room.members()|length }} member{{ '' if room.members()|length == 1 else 's' }}
+                                        {% if room.creator_id == current_user.id %}· creator{% endif %}
+                                    </div>
+                                </div>
+                                <a class="btn btn-sm btn-outline-primary" href="{{ url_for('rooms.view_room', room_id=room.id) }}">Open</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="empty-state">
+                        <p class="mb-1">You're not in any rooms yet.</p>
+                        <small>Create a room and add your friends to start chatting together.</small>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

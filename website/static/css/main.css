@@ -1,0 +1,136 @@
+/* App-specific styles layered on top of Bootstrap 5. */
+
+body {
+    background-color: #f5f6fa;
+    min-height: 100vh;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    background-color: #e9ecef;
+}
+
+.avatar-lg {
+    width: 96px;
+    height: 96px;
+}
+
+.avatar-sm {
+    width: 28px;
+    height: 28px;
+}
+
+.feed-card {
+    background: #fff;
+    border: 1px solid #e3e6ec;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+}
+
+.feed-card .post-image {
+    width: 100%;
+    max-height: 720px;
+    object-fit: contain;
+    background: #111;
+}
+
+.chat-window {
+    height: 65vh;
+    overflow-y: auto;
+    background: #f0f2f5;
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.chat-bubble {
+    max-width: 75%;
+    padding: 0.55rem 0.85rem;
+    border-radius: 18px;
+    line-height: 1.35;
+    word-wrap: break-word;
+    position: relative;
+}
+
+.chat-bubble .meta {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    margin-top: 0.15rem;
+}
+
+.chat-bubble.mine {
+    align-self: flex-end;
+    background: #0d6efd;
+    color: #fff;
+    border-bottom-right-radius: 4px;
+}
+
+.chat-bubble.theirs {
+    align-self: flex-start;
+    background: #fff;
+    color: #212529;
+    border-bottom-left-radius: 4px;
+    border: 1px solid #e3e6ec;
+}
+
+.chat-input {
+    background: #fff;
+    border: 1px solid #e3e6ec;
+    border-radius: 24px;
+    padding: 0.5rem 1rem;
+    flex: 1;
+}
+
+.member-list {
+    max-height: 65vh;
+    overflow-y: auto;
+}
+
+.member-list .list-group-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.typing-indicator {
+    font-size: 0.8rem;
+    color: #6c757d;
+    min-height: 1.1rem;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.5rem;
+}
+
+.posts-grid img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.empty-state {
+    text-align: center;
+    color: #6c757d;
+    padding: 3rem 1rem;
+}

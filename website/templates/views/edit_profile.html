@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Edit profile · Flask Connect{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body p-4">
+                <h1 class="h4 mb-3">Edit profile</h1>
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <img class="avatar avatar-lg" src="{{ url_for('static', filename=profile_user.profile_pic) }}" alt="">
+                    <div>
+                        <div class="fw-semibold">{{ profile_user.username }}</div>
+                        <div class="text-muted small">{{ profile_user.email }}</div>
+                    </div>
+                </div>
+
+                <form method="post" enctype="multipart/form-data" class="mb-4">
+                    <input type="hidden" name="action" value="avatar">
+                    <label class="form-label">Profile picture</label>
+                    <input class="form-control mb-2" type="file" name="profile_pic" accept="image/*">
+                    <button class="btn btn-primary btn-sm" type="submit">Update picture</button>
+                </form>
+
+                <hr>
+
+                <form method="post">
+                    <input type="hidden" name="action" value="password">
+                    <h2 class="h6">Change password</h2>
+                    <div class="mb-2">
+                        <label class="form-label">Current password</label>
+                        <input class="form-control" type="password" name="current_password" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">New password</label>
+                        <input class="form-control" type="password" name="new_password" minlength="8" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Confirm new password</label>
+                        <input class="form-control" type="password" name="confirm_password" minlength="8" required>
+                    </div>
+                    <button class="btn btn-primary btn-sm" type="submit">Update password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

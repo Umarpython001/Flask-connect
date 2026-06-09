@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Direct messages · Flask Connect{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <h1 class="h4 mb-3">Direct messages</h1>
+                {% if conversations %}
+                    <ul class="list-group list-group-flush">
+                        {% for c in conversations %}
+                            <li class="list-group-item d-flex align-items-center gap-2 px-0">
+                                <img class="avatar" src="{{ url_for('static', filename=c.other.profile_pic) }}" alt="">
+                                <a class="flex-grow-1 text-decoration-none" href="{{ url_for('dm.dm_room', other_id=c.other.id) }}">
+                                    <div class="fw-semibold">{{ c.other.username }}</div>
+                                    <div class="text-muted small text-truncate" style="max-width: 320px;">{{ c.preview }}</div>
+                                </a>
+                                <small class="text-muted">{{ c.ts.strftime('%b %d') if c.ts else '' }}</small>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="empty-state">
+                        <p class="mb-1">No conversations yet.</p>
+                        <small>Visit a friend's profile and click <strong>Message</strong> to start chatting.</small>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

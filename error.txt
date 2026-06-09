@@ -1,0 +1,11 @@
+(venv) C:\Users\Olowonyo\Desktop\claude_code_smth\social_media>python app.py
+(9676) wsgi starting up on http://0.0.0.0:5000
+wsgi exiting
+(9676) wsgi exited, is_accepting=True
+Exception ignored in: <function _removeHandlerRef at 0x00000213898FADD0>
+Traceback (most recent call last):
+  File "C:\Users\Olowonyo\AppData\Local\Programs\Python\Python310\lib\logging\__init__.py", line 846, in _removeHandlerRef
+  File "C:\Users\Olowonyo\AppData\Local\Programs\Python\Python310\lib\logging\__init__.py", line 226, in _acquireLock
+  File "C:\Users\Olowonyo\AppData\Local\Programs\Python\Python310\lib\threading.py", line 164, in acquire
+  File "C:\Users\Olowonyo\Desktop\claude_code_smth\social_media\venv\lib\site-packages\eventlet\green\thread.py", line 36, in get_ident 
+RuntimeError: greenlet is being finalized

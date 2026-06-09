@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}New room · Flask Connect{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <h1 class="h4 mb-3">Create a room</h1>
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Room name</label>
+                        <input class="form-control" name="name" value="{{ name }}" maxlength="80" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Add friends</label>
+                        {% if friends %}
+                            <div class="row g-2">
+                                {% for f in friends %}
+                                    <div class="col-md-6">
+                                        <label class="d-flex align-items-center gap-2 p-2 border rounded">
+                                            <input type="checkbox" name="member_ids" value="{{ f.id }}">
+                                            <img class="avatar avatar-sm" src="{{ url_for('static', filename=f.profile_pic) }}" alt="">
+                                            <span>{{ f.username }}</span>
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted mb-0">You need friends before you can add anyone. (You'll still be in the room.)</p>
+                        {% endif %}
+                    </div>
+                    <button class="btn btn-primary" type="submit">Create room</button>
+                    <a class="btn btn-link" href="{{ url_for('rooms.list_rooms') }}">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

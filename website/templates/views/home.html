@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Home · Flask Connect{% endblock %}
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Share a photo</h2>
+                <form action="{{ url_for('posts.create_post') }}" method="post" enctype="multipart/form-data">
+                    <div class="mb-2">
+                        <input class="form-control" type="file" name="image" accept="image/*" required>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Post</button>
+                </form>
+            </div>
+        </div>
+
+        {% if posts %}
+            {% for post in posts %}
+                {% include "posts/_post_card.html" %}
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <p class="mb-1">No posts yet.</p>
+                <small>Be the first to share a photo!</small>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <h2 class="h6 text-muted">Tips</h2>
+                <ul class="small mb-0 ps-3">
+                    <li>Visit a friend's profile to send a request.</li>
+                    <li>Open the Friends page to accept incoming requests.</li>
+                    <li>Create a room and add your friends for group chat.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
